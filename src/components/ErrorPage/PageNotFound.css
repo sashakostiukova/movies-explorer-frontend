@@ -1,0 +1,79 @@
+.page-not-found {
+  padding: 246px 0 60px;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  color: #000000;
+  text-align: center;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0 auto;
+}
+
+.page-not-found__title {
+  max-width: 400px;
+  color: #000000;
+  font-size: 140px;
+  font-weight: 400;
+  margin: 0 0 5px;
+}
+
+.page-not-found__description {
+  font-size: 16px;
+  margin: 0 0 184px;
+}
+
+.page-not-found__go-back-button {
+  border: none;
+  margin-top: auto;
+  background: transparent;
+}
+
+.link-transition {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.link-transition:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .page-not-found {
+    padding-top: 408px;
+  }
+
+  .page-not-found__description{
+    margin-top: 0;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-not-found {
+    padding: 329px 0 30px;
+    min-height: 780px;
+    font-size: 12px;
+  }
+
+  .page-not-found__description{
+    margin-top: 0;
+    font-size: 12px;
+  }
+
+  .page-not-found__title {
+    font-size: 80px;
+    margin-bottom: 10px;
+  }
+
+  .page-not-found__go-back-button{
+    font-size: 12px;
+  }
+
+}

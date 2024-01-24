@@ -1,0 +1,106 @@
+.vertical-navigation {
+  display: none;
+}
+
+.vertical-navigation_opened {
+  display: block;
+}
+
+.vertical-navigation::before {
+  content: "";
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+  background: #000000;
+}
+
+.vertical-navigation__close-button {
+  height: 33px;
+  width: 33px;
+  background: transparent url(../../images/cross-icon.svg) no-repeat center / contain;
+  border: none;
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 3;
+}
+
+.vertical-navigation__links-list {
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: calc(100% - 520px);
+  z-index: 2;
+  background: #FFFFFF;
+  height: 100vh;
+  width: 520px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 159px 90px 52px;
+  transform: translateX(100%);
+
+}
+
+.vertical-navigation__links-list_opened {
+  transform: translateX(0);
+}
+
+.vertical-navigation__link {
+  color: #000000;
+  text-align: center;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-decoration: none;
+}
+
+.vertical-navigation__link_active {
+  border-bottom: solid 2px #000000;
+}
+
+
+.vertical-navigation__account-list-item {
+  margin-top: auto;
+}
+
+.vertical-navigation__account-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navigation__icon_type_vertical-menu {
+  filter: invert(0%) sepia(11%) saturate(7498%) hue-rotate(23deg) brightness(106%) contrast(95%);
+}
+
+@media screen and (max-width: 519px) {
+  .vertical-navigation__close-button {
+    top: 13px;
+    right: 13px;
+  }
+  
+  .vertical-navigation__links-list {
+    max-width: 100%;
+    left: 0;
+    padding: 144px 10px 48px;
+    gap: 24px;
+  }
+  
+  .vertical-navigation__account-link {
+    flex-direction: row;
+    gap: 13px
+  }
+
+}

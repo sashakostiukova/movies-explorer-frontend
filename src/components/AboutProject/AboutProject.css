@@ -1,0 +1,124 @@
+.about-project {
+  box-sizing: border-box;
+  height: 608px;
+  max-width: 100%;
+  padding: 110px 70px;
+  color: #000000;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.about-project__description-block {
+  padding: 70px 0 110px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px 40px;
+}
+
+.about-project__description {
+  line-height: 20px;
+  margin: 0;
+}
+
+.about-project__main-description {
+  margin: 0 0 26px;
+  font-size: 20px;
+  line-height: normal;
+  letter-spacing: -0.8px;
+}
+
+
+.about-project__scheme-block {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 36px 31px;
+}
+
+.about-project__scheme-item {
+  background-color: #000000;
+  color: #FFFFFF;
+  text-align: center;
+  line-height: normal;
+  margin: 0;
+  padding: 9px 0;
+}
+
+.about-project__scheme-item__right-column {
+  color: #000000;
+  background-color: #F2F2F2;
+}
+
+.about-project__bottom-row {
+  background-color: #FFFFFF;
+  color: #A0A0A0;
+  font-weight: 500;
+  line-height: 17px;
+  padding: 14px 0;
+}
+
+@media screen and (max-width: 768px) {
+  .about-project {
+    height: 585px;
+    padding: 90px 50px;
+  }
+
+  .about-project__description-block {
+    gap: 22px 30px;
+    padding-bottom: 93px;
+  }
+
+  .about-project__description {
+    font-size: 12px;
+    font-size: 12px;
+    line-height: 18px; 
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .about-project {
+    padding: 70px 18px;
+    height: 641px;
+  }
+
+  .about-project__description-block {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    padding: 60px 0;
+  }
+
+  .about-project__description-block__column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .about-project__description {
+    font-size: 11px;
+    line-height: 16px;
+  }
+  
+  .about-project__main-description {
+    margin-bottom: 0;
+    font-size: 18px;
+    letter-spacing: -0.72px;
+  }
+
+  .about-project__scheme-block {
+    grid-template-columns: 1fr 1.84fr;
+    font-size: 11px;
+  }
+
+  .about-project__scheme-item {
+    padding: 11px 0;;
+  }
+
+  .about-project__bottom-row {
+    font-weight: 400;
+    line-height: normal;
+  }
+
+}
+

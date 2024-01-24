@@ -1,0 +1,50 @@
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  padding: 0 29px;
+}
+
+.filter-checkbox__invisible-checkbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(0 0 0 0);
+}
+
+.filter-checkbox__visible-checkbox {
+  height: 20px;
+  width: 36px;
+  background: transparent url(../../images/tumb-off.svg) no-repeat center / contain;
+  transition: background-image 0.5s ease;
+}
+
+.filter-checkbox__invisible-checkbox:checked + .filter-checkbox__visible-checkbox {
+  background: transparent url(../../images/tumb-on.svg) no-repeat center / contain;
+}
+
+.filter-checkbox__text {
+  margin-left: 14px;
+  color: #000000;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+@media screen and (max-width: 768px) {
+  .filter-checkbox {
+    padding: 0 20px;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .filter-checkbox {
+    justify-content: center;
+  }
+
+  .filter-checkbox__text {
+    font-size: 11px;
+  }
+}

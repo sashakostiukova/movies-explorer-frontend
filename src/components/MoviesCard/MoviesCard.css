@@ -1,0 +1,119 @@
+.movies-card {
+  position: relative;
+  color: #000000;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.movies-card:hover {
+  cursor: pointer;
+}
+
+.movies-card__img {
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.movies-card__caption-block {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 14px 0;
+}
+
+.movies-card__title {
+  max-width: 250px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: normal;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.movies-card__duration {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 44px;
+  height: 18px;
+  border-radius: 3px;
+  background: #F9F9F9;
+  padding: 3px 4px;
+  color: #A0A0A0;
+  text-align: center;
+  font-size: 11px;
+  line-height: 10px;
+}
+
+.movies-card__button {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  border: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.movies-card:hover .movies-card__button {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.movies-card__save-button {
+  display: flex;
+  align-items: center;
+  height: 21px;
+  width: 72pz;
+  border-radius: 30px;
+  background: #F9F9F9;
+  margin: 0;
+  padding: 6px 7px;
+}
+
+.movies-card__button-text {
+  text-align: center;
+  font-size: 10px;
+  line-height: 9px;
+}
+
+.movies-card__saved-button {
+  background: transparent url('../../images/saved-icon.svg') no-repeat center / contain;
+  height: 21px;
+  width: 21px;
+  opacity: 1;
+}
+
+.movies-card__delete-button {
+  background: #F9F9F9 url('../../images/delete-icon.svg') no-repeat center / contain;
+  height: 21px;
+  width: 21px;
+  border-radius: 50%;
+}
+
+.block_none {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .movies-card__caption-block {
+    padding: 25px 0 0;
+  }
+
+  .movies-card__title {
+    white-space: nowrap;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .movies-card__caption-block {
+    padding: 16px 0 0;
+  }
+
+  .movies-card__title {
+    font-size: 12px;
+  }
+}
