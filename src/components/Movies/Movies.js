@@ -11,12 +11,12 @@ export default function Movies({onNavigationSidebar}) {
     <>
     <Header onNavigationSidebar={onNavigationSidebar} />
     <SearchForm />
-    <div className="movies__line" />
+    <div className="movies-line" />
 
     {/* <Preloader /> */}
     <MoviesCardList />
     
-    <button className="movies__more-button button-transition">Ещё</button>
+    <button className="movies-more-button button-transition">Ещё</button>
 
     <Footer />
     </>

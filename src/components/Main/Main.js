@@ -12,12 +12,14 @@ function Main({onNavigationSidebar}) {
   return (
   <>
   <Header onNavigationSidebar={onNavigationSidebar} />
-
-  <Promo />
-  <AboutProject />
-  <Techs />
-  <AboutMe />
-  <Portfolio />
+  
+  <main>
+    <Promo />
+    <AboutProject />
+    <Techs />
+    <AboutMe />
+    <Portfolio />
+  </main>
   
   <Footer />
 

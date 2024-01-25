@@ -9,23 +9,30 @@ export default function Portfolio() {
 
       <nav className="portfolio__nav">
         <ul className="portfolio__links-list">
+
           <li className="portfolio__list-item">
             <a className="portfolio__link link-transition" target="_blank" rel="noopener noreferrer"
-              href="https://github.com/sashakostiukova/how-to-learn">Статичный сайт</a>
-            <img className="portfolio__link-icon" alt="иконка стрелочки" src={arrowIcon} />
+              href="https://github.com/sashakostiukova/how-to-learn">Статичный сайт
+              <img className="portfolio__link-icon" alt="иконка стрелочки" src={arrowIcon} />
+            </a>
+            <div className="portfolio__nav-line" />
           </li>
-          <div className="portfolio__nav__line" />
+
           <li className="portfolio__list-item">
             <a className="portfolio__link link-transition" target="_blank" rel="noopener noreferrer"
-              href="https://github.com/sashakostiukova/russian-travel">Адаптивный сайт</a>
-            <img className="portfolio__link-icon" alt="иконка стрелочки" src={arrowIcon} />
+              href="https://github.com/sashakostiukova/russian-travel">Адаптивный сайт
+              <img className="portfolio__link-icon" alt="иконка стрелочки" src={arrowIcon} />
+            </a>
+            <div className="portfolio__nav-line" />
           </li>
-          <div className="portfolio__nav__line" />
+
           <li className="portfolio__list-item">
             <a className="portfolio__link link-transition" target="_blank" rel="noopener noreferrer"
-              href="https://github.com/sashakostiukova/react-mesto-api-full-gha">Одностраничное приложение</a>
-            <img className="portfolio__link-icon" alt="иконка стрелочки" src={arrowIcon} />
+              href="https://github.com/sashakostiukova/react-mesto-api-full-gha">Одностраничное приложение
+              <img className="portfolio__link-icon" alt="иконка стрелочки" src={arrowIcon} />
+            </a>
           </li>
+
         </ul>
       </nav>
     </section>

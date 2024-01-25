@@ -10,7 +10,7 @@ export default function SavedMovies({onNavigationSidebar}) {
     <>
     <Header onNavigationSidebar={onNavigationSidebar}/>
     <SearchForm />
-    <div className="movies__line" />
+    <div className="movies-line" />
 
     <MoviesCardList />
     

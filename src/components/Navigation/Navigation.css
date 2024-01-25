@@ -13,9 +13,8 @@
   display: flex;
 }
 
-.navigation__movies-links {
-  display: flex;
-  gap: 20px;
+.navigation__movies-link {
+  margin-right: 20px;
 }
 
 .navigation__list-item {
@@ -34,13 +33,13 @@
   font-weight: 500;
 }
 
-.account__link {
+.navigation__account-link {
   font-weight: 500;
   line-height: 16px;
   margin-left: 50px;
 }
 
-.navigation__icon__background {
+.navigation__icon-background {
   display: inline-block;
   width: 30px;
   height: 30px;
@@ -58,15 +57,17 @@
   filter: invert(96%) sepia(1%) saturate(3%) hue-rotate(282deg) brightness(115%) contrast(100%);
 }
 
-.navigation__login-register-links {
-  display: flex;
-  gap: 30px;
+.navigation__register-link {
+  margin-right: 30px;
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
 }
 
 .navigation__login-link {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
   width: 76px;
   height: 32px;
   background-color: #000000;
@@ -85,7 +86,7 @@
   cursor: pointer;
 }
 
-.block_none {
+.block-none {
   display: none;
 }
 
@@ -104,10 +105,18 @@
 
   }
 
-  .navigation__movies-links {
+  .navigation__account-list-item {
     display: none;
   }
-  
+
+  .navigation__movies-list-item {
+    display: none;
+  }
+
+  .navigation__saved-movies-list-item {
+    display: none;
+  }
+
 }
 
 @media screen and (max-width: 425px) {

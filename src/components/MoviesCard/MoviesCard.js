@@ -14,8 +14,8 @@ export default function MoviesCard({ src, title, duration}) {
         <span className="movies-card__button-text ">Сохранить</span>
       </button>
 
-      <button className="movies-card__button movies-card__delete-button block_none" type="button" aria-label="Кнопка удаления фильма" />
-      <button className="movies-card__button movies-card__saved-button block_none" type="button" aria-label="Кнопка отменить сохранения фильма" />
+      <button className="movies-card__button movies-card__delete-button block-none" type="button" aria-label="Кнопка удаления фильма" />
+      <button className="movies-card__button movies-card__saved-button block-none" type="button" aria-label="Кнопка отменить сохранения фильма" />
     </li>
   )
 }

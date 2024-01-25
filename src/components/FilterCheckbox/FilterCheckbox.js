@@ -8,6 +8,6 @@ export default function FilterCheckbox() {
         id="short-movies" value="short-movies"/>
       <span class="filter-checkbox__visible-checkbox"></span>
       <span class="filter-checkbox__text">Короткометражки</span>
-     </label>
+    </label>
   )
 }

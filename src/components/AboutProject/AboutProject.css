@@ -45,7 +45,7 @@
   padding: 9px 0;
 }
 
-.about-project__scheme-item__right-column {
+.about-project__scheme-item-right-column {
   color: #000000;
   background-color: #F2F2F2;
 }
@@ -89,7 +89,7 @@
     padding: 60px 0;
   }
 
-  .about-project__description-block__column {
+  .about-project__description-block-column {
     display: flex;
     flex-direction: column;
     gap: 16px;

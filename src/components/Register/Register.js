@@ -34,7 +34,7 @@ export default function Register() {
         <span className="registration-login__error registration-login__error_visible">Что-то пошло не так...</span>
 
         <div className="submit-error-wrapper ">
-          <span className="submit-error block_none ">При регистрации пользователя произошла ошибка.</span>
+          <span className="submit-error block-none ">При регистрации пользователя произошла ошибка.</span>
           <button type="submit" className="button-transition registration-button">Зарегистрироваться</button>
         </div>
           <p className="registration-login__text">Уже зарегистрированы?

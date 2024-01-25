@@ -27,7 +27,7 @@ export default function Login() {
         <span className="registration-login__error">Что-то пошло не так...</span>
 
         <div className="submit-error-wrapper ">
-          <span className="submit-error block_none ">При авторизации произошла ошибка. Токен не передан или передан не в том формате.</span>
+          <span className="submit-error block-none ">При авторизации произошла ошибка. Токен не передан или передан не в том формате.</span>
           <button type="submit" className="button-transition login-button">Войти</button>
         </div>
           <p className="registration-login__text">Ещё не зарегистрированы?

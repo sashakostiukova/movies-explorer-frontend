@@ -10,16 +10,15 @@ export default function VerticalNavigation({ isOpen }) {
 
   return (
     <div className={`vertical-navigation ${isOpen && 'vertical-navigation_opened'}`}>
+   
+      <button
+        className="vertical-navigation__close-button button-transition"
+        type="button"
+        aria-label="Кнопка закрытия меню навигации"
+        onClick={CurrentAppContext.closeNavigationSidebar}
+      />
 
       <ul className={`vertical-navigation__links-list ${isOpen && 'vertical-navigation__links-list_opened'}`}>
-
-        <button
-          className="vertical-navigation__close-button button-transition"
-          type="button"
-          aria-label="Кнопка закрытия меню навигации"
-          onClick={CurrentAppContext.closeNavigationSidebar}
-        />
-
 
         <li className="vertical-navigation__list-item">
           <NavLink
@@ -48,8 +47,8 @@ export default function VerticalNavigation({ isOpen }) {
         <li className="vertical-navigation__list-item vertical-navigation__account-list-item">
           <NavLink className="vertical-navigation__link vertical-navigation__account-link link-transition" to="/profile">
             Аккаунт
-            <div className="vertical-navigation__icon__background">
-              <img className="vertical-navigation__icon navigation__icon_type_vertical-menu" alt="иконка в виде головы и плеч человечка" src={accountIcon} />
+            <div className="vertical-navigation__icon-background">
+              <img className="vertical-navigation__icon vertical-navigation__icon_type_vertical-menu" alt="иконка в виде головы и плеч человечка" src={accountIcon} />
             </div>
           </NavLink>
         </li>
