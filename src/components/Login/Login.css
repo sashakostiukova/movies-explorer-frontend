@@ -103,11 +103,6 @@
   margin-top: 169px;
 }
 
-.button_disabled {
-  background: #F8F8F8;
-  color: #C2C2C2;
-}
-
 .registration-login__text {
   color: #A0A0A0;
   text-align: center;
@@ -137,6 +132,15 @@
 .button-transition:hover {
   opacity: 0.8;
   cursor: pointer;
+}
+
+.button_disabled {
+  background: #F8F8F8;
+  color: #C2C2C2;
+}
+
+.button_disabled:hover {
+  cursor: default;
 }
 
 .link-transition {

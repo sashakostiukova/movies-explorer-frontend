@@ -5,16 +5,35 @@
   margin: 0 70px 10px;
 }
 
+.movies-message {
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  color: #FF4062;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding: 10px 70px 10px;
+  margin: 0 auto;
+}
+
 @media screen and (max-width: 768px) {
 
   .movies-line {
     margin: 0 30px 10px;
+  }
+  .movies-message {
+    font-size: 15px; 
+    padding: 10px 30px 10px;
   }
 }
 
 @media screen and (max-width: 425px) {
   .movies-line {
     margin: 0 10px 10px;
+  }
+  .movies-message {
+    font-size: 12px;
+    padding: 0 10px 10px;
   }
 }
 

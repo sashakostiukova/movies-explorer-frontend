@@ -1,8 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Login.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
-export default function Login() {
+export default function Login({ onLogin} ) {
+
+  const navigate = useNavigate();
+
+  const [errMessage, setErrMessage] = useState('');
+
+  React.useEffect(() => {
+    reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+  } = useForm({ mode: "onChange" });
+
+  const emailRegister = register('email', {
+    required: {
+      value: true,
+      message: "Заполните поле",
+    },
+    pattern: {
+      value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
+      message: "Введите email"
+    }
+  })
+
+  const passwordRegister = register('password', {
+    required: {
+      value: true,
+      message: "Заполните поле",
+    },
+    minLength: {
+      value: 8,
+      message: "Минимальное количество символов: 8",
+    },
+    maxLength: {
+      value: 20,
+      message: "Максимальное количество символов: 20",
+    },
+  })
+
+  function handleSubmitLogin({ email, password }) {
+    onLogin({ email, password })
+      .then(() => navigate('/movies'))
+      .catch((err) => {
+        if(err === 'Ошибка: 401') {
+          setErrMessage('Вы ввели неправильный логин или пароль');
+        } else if(err === 'Ошибка: 500') {
+          setErrMessage('500 На сервере произошла ошибка.')
+        } else {
+          setErrMessage(err.message || 'Что-то пошло не так');
+        }
+      });
+  }
+
   return (
     <div className="registration-login">
 
@@ -10,25 +68,38 @@ export default function Login() {
 
       <h2 className="registration-login__title">Рады видеть!</h2>
 
-      <form className="registration-login__form" name="login-form">
+      <form className="registration-login__form" name="login-form" onSubmit={handleSubmit(handleSubmitLogin)}>
 
-        <label className="registration-login__label" for="email-input">E-mail</label>
+        <label className="registration-login__label" htmlFor="email-input">E-mail</label>
         <input 
-          id="email-input" name="email" className="registration-login__input" 
+          id="email-input" name="email"
+          className={`registration-login__input ${errors.email && `registration-login__input_type_error`}`}
           type="email" required placeholder="Почта"
+          {...emailRegister}
         />
-        <span className="registration-login__error registration-login__error_visible"></span>
+        <span className={`registration-login__error ${errors.email && 'registration-login__error_visible'}`}>
+          {errors.email && errors.email.message}
+        </span>
 
-        <label className="registration-login__label" for="password-input">Пароль</label>
+        <label className="registration-login__label" htmlFor="password-input">Пароль</label>
         <input 
-            id="password-input" name="password" className="registration-login__input" 
+            id="password-input" name="password"
+            className={`registration-login__input ${errors.password && `registration-login__input_type_error`}`}
             type="password" required placeholder="Пароль"
+            {...passwordRegister}
         />
-        <span className="registration-login__error">Что-то пошло не так...</span>
+        <span className={`registration-login__error ${errors.password && 'registration-login__error_visible'}`}>
+          {errors.password && errors.password.message}
+        </span>
 
         <div className="submit-error-wrapper ">
-          <span className="submit-error block-none ">При авторизации произошла ошибка. Токен не передан или передан не в том формате.</span>
-          <button type="submit" className="button-transition login-button">Войти</button>
+          <span className="submit-error">{errMessage}</span>
+
+          <button
+            type="submit"
+            className={`button-transition registration-button ${!isValid && `button_disabled`}`}
+            disabled={!isValid}
+            >Войти</button>
         </div>
           <p className="registration-login__text">Ещё не зарегистрированы?
             <Link className="registration-login__link link-transition" to="/signup">

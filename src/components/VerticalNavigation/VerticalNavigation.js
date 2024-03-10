@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppContext } from '../../contexts/AppContext';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import accountIcon from '../../images/account-icon.svg';
 import './VerticalNavigation.css';
 
@@ -28,30 +28,52 @@ export default function VerticalNavigation({ isOpen }) {
           </NavLink>
         </li>
 
-        <li className="vertical-navigation__list-item">
-          <NavLink
-            className={({isActive}) => `vertical-navigation__link link-transition ${isActive ? "vertical-navigation__link_active" : ""}`}
-            to="/movies">
-            Фильмы
-          </NavLink>
-        </li>
+        {CurrentAppContext.loggedIn ? 
+          <>
+          <li className="vertical-navigation__list-item">
+            <NavLink
+              className={({isActive}) => `vertical-navigation__link link-transition ${isActive ? "vertical-navigation__link_active" : ""}`}
+              to="/movies">
+              Фильмы
+            </NavLink>
+          </li>
 
-        <li className="vertical-navigation__list-item">
-          <NavLink
-            className={({isActive}) => `vertical-navigation__link link-transition ${isActive ? "vertical-navigation__link_active" : ""}`}
-            to="/saved-movies">
-            Сохранённые фильмы
-          </NavLink>
-        </li>
+          <li className="vertical-navigation__list-item">
+            <NavLink
+              className={({isActive}) => `vertical-navigation__link link-transition ${isActive ? "vertical-navigation__link_active" : ""}`}
+              to="/saved-movies">
+              Сохранённые фильмы
+            </NavLink>
+          </li>
 
-        <li className="vertical-navigation__list-item vertical-navigation__account-list-item">
-          <NavLink className="vertical-navigation__link vertical-navigation__account-link link-transition" to="/profile">
-            Аккаунт
-            <div className="vertical-navigation__icon-background">
-              <img className="vertical-navigation__icon vertical-navigation__icon_type_vertical-menu" alt="иконка в виде головы и плеч человечка" src={accountIcon} />
-            </div>
-          </NavLink>
-        </li>
+          <li className="vertical-navigation__list-item vertical-navigation__account-list-item">
+            <NavLink className="vertical-navigation__link vertical-navigation__account-link link-transition" to="/profile">
+              Аккаунт
+              <div className="vertical-navigation__icon-background">
+                <img className="vertical-navigation__icon vertical-navigation__icon_type_vertical-menu" alt="иконка в виде головы и плеч человечка" src={accountIcon} />
+              </div>
+            </NavLink>
+          </li>
+          </>
+          :
+          <>
+          <li className="vertical-navigation__list-item">
+            <Link
+              className="vertical-navigation__link link-transition"
+              to="/signup">
+              Регистрация
+            </Link>
+          </li>
+
+          <li className="vertical-navigation__list-item">
+            <Link
+              className="vertical-navigation__link link-transition"
+              to="/signin">
+              Войти
+            </Link>
+          </li>
+          </>
+        }
 
       </ul>
     </div>
