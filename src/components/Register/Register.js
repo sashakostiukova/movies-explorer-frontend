@@ -2,10 +2,18 @@ import React, { useState } from 'react';
 import './Register.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { AppContext } from '../../contexts/AppContext';
+import { 
+  DUPLACATE_ERROR_MESSAGE,
+  BAD_REQUEST_REGISTER_ERROR_MESSAGE,
+  SERVER_ERROR_MESSAGE,
+  SOME_ERROR_MESSAGE 
+} from '../../utils/errorMessages';
 
-export default function Register({ onRegister }) {
+export default function Register({ onRegister, buttonText }) {
 
   const navigate = useNavigate();
+  const CurrentAppContext = React.useContext(AppContext);
 
   const [ registrationErrMessage, setRegistrationErrMessage] = useState('');
 
@@ -78,16 +86,17 @@ export default function Register({ onRegister }) {
       .then(() => navigate('/movies'))
       .catch((err) => {
         if(err === 'Ошибка: 409') {
-          setRegistrationErrMessage('Пользователь с таким email уже существует');
+          setRegistrationErrMessage(DUPLACATE_ERROR_MESSAGE);
         } else if(err === 'Ошибка: 400') {
-          setRegistrationErrMessage('При регистрации пользователя произошла ошибка')
+          setRegistrationErrMessage(BAD_REQUEST_REGISTER_ERROR_MESSAGE)
         } else if(err === 'Ошибка: 500') {
-          setRegistrationErrMessage('500 На сервере произошла ошибка.')
+          setRegistrationErrMessage(SERVER_ERROR_MESSAGE)
         }
         else {
-          setRegistrationErrMessage(err.message || 'Что-то пошло не так')
+          setRegistrationErrMessage(err.message || SOME_ERROR_MESSAGE)
         }
-      });
+      })
+      .finally(()=> CurrentAppContext.stopLoading());
   }
 
   return (
@@ -133,9 +142,9 @@ export default function Register({ onRegister }) {
           <span className="submit-error">{registrationErrMessage}</span>
           <button
             type="submit"
-            className={`button-transition registration-button ${!isValid && `button_disabled`}`}
-            disabled={!isValid}
-            >Зарегистрироваться</button>
+            className={`button-transition registration-button ${!isValid && `button_disabled`} ${CurrentAppContext.isLoading && `button_disabled`}`}
+            disabled={!isValid || CurrentAppContext.isLoading}
+            >{buttonText}</button>
         </div>
           <p className="registration-login__text">Уже зарегистрированы?
             <Link className="registration-login__link link-transition" to="/signin">

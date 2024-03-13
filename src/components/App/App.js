@@ -20,7 +20,7 @@ function App() {
 
   const [ isVerticalNavigationOpen, setIsVerticalNavigationOpen] = React.useState(false);
 
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(JSON.parse(localStorage.getItem("loggedIn")));
   const [ currentUser, setCurrentUser ] = React.useState({});
 
   const [ allMovies, setAllMovies ] = React.useState([]);
@@ -62,12 +62,17 @@ function App() {
     setIsNothingFoundSavedMovies(false);
   }
 
+  function stopLoading() {
+    setIsLoading(false);
+  }
+
   function auth(jwt) {
     return moviesAuth.getContent(jwt)
       .then((res) => {
         if (res) {
           setCurrentUser(res);
           setLoggedIn(true);
+          localStorage.setItem('loggedIn', true);
         }
       })
       .catch(console.error); 
@@ -113,17 +118,11 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    if (loggedIn) navigate('/movies');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedIn]);
-
-  React.useEffect(() => {
     if (loggedIn) {
       const jwt = localStorage.getItem('jwt');
       moviesAuth.getContent(jwt)
       .then((data) => {
         setCurrentUser(data);
-
       })
       .catch(console.error);
 
@@ -131,6 +130,7 @@ function App() {
       .then((movies) => {
         const reversedMovies = movies.reverse();
         setSavedMovies(reversedMovies);
+        setCurrentSavedMovies(reversedMovies);
       })
       .catch(console.error); 
 
@@ -138,13 +138,19 @@ function App() {
   }, [loggedIn])
 
   function onLogin({ email, password }) {
+    if(!isLoading) {
+      setIsLoading(true);
+    }
     return moviesAuth.authorize(email, password).then((res) => {
       localStorage.setItem('jwt', res.token);
+      localStorage.setItem('loggedIn', true);
       setLoggedIn(true);
+      setIsLoading(false);
     });
   };
 
   function onRegister({ email, password, name }) {
+    setIsLoading(true);
     return moviesAuth.register(email, password, name)
       .then((res) => onLogin({ email, password }))
   };
@@ -153,12 +159,14 @@ function App() {
     localStorage.clear();
     setLoggedIn(false);
     setCurrentUser([]);
-    setCurrentMovies([]);
     setAllMovies([]);
+    setCurrentMovies([]);
+    setSavedMovies([]);
+    setCurrentSavedMovies([]);
     setIsCheckboxChecked(false);
     setIsSavedMoviesCheckboxChecked(false);
 
-    navigate('/signin');
+    navigate('/');
   };
   
   function handleOpenNavigationSidebar() {
@@ -202,7 +210,6 @@ function App() {
 function handleMoviesSearch(keyword) {
   setIsNothingFound(false);
   if(allMovies.length === 0) {
-
     setIsLoading(true);
     getAllMovies()
       .then((res)=> {
@@ -222,7 +229,7 @@ function handleMoviesSearch(keyword) {
         }
       })
       .catch(console.error)
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsLoading(false))
 
   } else {
 
@@ -299,8 +306,9 @@ function handleSavedMoviesSearch(keyword) {
 }
 
 function handleMovieLike(movie) {
-  const isLiked = movie.isLiked;
+  const isLiked = savedMovies.some(i => i.movieId === movie.id)
   const jwt = localStorage.getItem('jwt');
+
   if(!isLiked) {
     mainApi.createSavedMovie(movie, jwt)
       .then((newSavedMovie) => {
@@ -314,7 +322,7 @@ function handleMovieLike(movie) {
     })
 
     mainApi.deleteSavedMovie(movieToDelete[0]._id, jwt)
-      .then(() => setSavedMovies((state) => state.filter((c) => c.movieId !== movie.movieId && c)))
+      .then(() => setSavedMovies((state) => state.filter((c) => c.movieId !== movie.id && c)))
       .catch(console.error)
   }
 }
@@ -322,18 +330,18 @@ function handleMovieLike(movie) {
 function handleSavedMovieDelete(movie) {
   const jwt = localStorage.getItem('jwt');
   mainApi.deleteSavedMovie(movie._id, jwt)
-    .then(() => {
-      const movies = (state) => state.filter((c) => c.movieId !== movie.movieId && c);
-      setSavedMovies(movies);
-    })
+    .then(() => setSavedMovies((state) => state.filter((c) => c._id !== movie._id && c)))
+    .then(() => setCurrentSavedMovies((state) => state.filter((c) => c._id !== movie._id && c)))
     .catch(console.error)
 }
 
 function handleEditProfile(data) {
+  setIsLoading(true);
   const jwt = localStorage.getItem('jwt');
   return mainApi.editProfile(data, jwt)
     .then((newData)=> {
       setCurrentUser(newData);
+      setIsLoading(false);
     })
 }
 
@@ -344,7 +352,7 @@ function toHoursAndMinutes(totalMinutes) {
 }
 
   return (
-    <AppContext.Provider value={{ isLoading, closeNavigationSidebar, loggedIn }}>
+    <AppContext.Provider value={{ isLoading, loggedIn, stopLoading }}>
       <CurrentUserContext.Provider value={{
         currentUser,
         currentMovies,
@@ -359,7 +367,7 @@ function toHoursAndMinutes(totalMinutes) {
           <Routes>
             <Route path="/" element={
               <>
-              <VerticalNavigation isOpen={isVerticalNavigationOpen} />
+              <VerticalNavigation isOpen={isVerticalNavigationOpen} closeSidebar={closeNavigationSidebar} />
               <Main onNavigationSidebar={handleOpenNavigationSidebar}/>
               </>
             } />
@@ -367,7 +375,7 @@ function toHoursAndMinutes(totalMinutes) {
             <Route path="/movies" element={ loggedIn ?
               <ProtectedRoute loggedIn={loggedIn}>
                 <>
-                <VerticalNavigation isOpen={isVerticalNavigationOpen} />
+                <VerticalNavigation isOpen={isVerticalNavigationOpen} closeSidebar={closeNavigationSidebar} />
                 <Movies 
                   toHoursAndMinutes={toHoursAndMinutes}
                   onNavigationSidebar={handleOpenNavigationSidebar}
@@ -385,7 +393,7 @@ function toHoursAndMinutes(totalMinutes) {
             <Route path="/saved-movies" element={ loggedIn ?
               <ProtectedRoute loggedIn={loggedIn}>
                 <>
-                <VerticalNavigation isOpen={isVerticalNavigationOpen} />
+                <VerticalNavigation isOpen={isVerticalNavigationOpen} closeSidebar={closeNavigationSidebar} />
                 <SavedMovies 
                   renderSavedMovies={renderSavedMovies}
                   toHoursAndMinutes={toHoursAndMinutes}
@@ -400,21 +408,35 @@ function toHoursAndMinutes(totalMinutes) {
                 </>
               </ProtectedRoute>
               :
-              <Navigate to='/' replace />
+              <Navigate to='/signin' replace />
             } />
 
-            <Route path="/profile" onSignOut={onSignOut} element={
-              <ProtectedRoute loggedIn={loggedIn}>
+            <Route path="/profile" element={ loggedIn ?
+              <ProtectedRoute loggedIn={loggedIn} > 
                 <>
-                <VerticalNavigation isOpen={isVerticalNavigationOpen} />
-                <Profile onNavigationSidebar={handleOpenNavigationSidebar} onSignOut={onSignOut} onEditProfile={handleEditProfile}/>
+                <VerticalNavigation isOpen={isVerticalNavigationOpen} closeSidebar={closeNavigationSidebar} />
+                <Profile
+                  onNavigationSidebar={handleOpenNavigationSidebar}
+                  onSignOut={onSignOut}
+                  onEditProfile={handleEditProfile}
+                  buttonText={isLoading ? 'Сохранение...' : 'Сохранить'}
+                  successSubmitMessage={'Данные успешно изменены!'}
+                  />
                 </>
               </ProtectedRoute>
+              : 
+              <Navigate to='/signin' replace />
             } />
 
-            <Route path="/signin" element={<Login onLogin={onLogin}/>} />
+            <Route path="/signin" element={ !loggedIn ?
+              <Login onLogin={onLogin} buttonText={isLoading ? 'Выполняется вход...' : 'Войти'}/>
+              :
+              <Navigate to='/' replace/>} />
 
-            <Route path="/signup" element={<Register onRegister={onRegister}/>} />
+            <Route path="/signup" element={ !loggedIn ?
+              <Register onRegister={onRegister} buttonText={isLoading ? 'Регистрация...' : 'Зарегистрироваться'}/>
+              :
+              <Navigate to='/' replace/>} />
 
             <Route path="*" element={<PageNotFound />}/>
           </Routes>

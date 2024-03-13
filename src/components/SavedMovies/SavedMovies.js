@@ -23,7 +23,6 @@ export default function SavedMovies({
   React.useEffect(() => {
     setSavedMoviesCheckboxUnchecked();
     clearIsNothingFoundSavedMovies();
-    renderSavedMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

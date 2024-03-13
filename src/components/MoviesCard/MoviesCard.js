@@ -5,46 +5,18 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 export default function MoviesCard({ movie, src, title, duration, onMovieClick }) {
 
-  const [isLiked, setIsLiked] = React.useState(false);
-  const [isDeleted, setIsDeleted] = React.useState(false);
-
   const userContext = React.useContext(CurrentUserContext);
   const location = useLocation();
 
-  React.useEffect(() => {
-
-    if(location.pathname === '/movies') {
-      const cardIsLiked = userContext.savedMovies.some(i => i.movieId === movie.id)
-
-      if(cardIsLiked) {
-        setIsLiked(true);
-        movie.isLiked = true;
-      }
-    }
-    
-    if(location.pathname === '/saved-movies') {
-      setIsLiked(true);
-      movie.isLiked = true;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  const isLiked = userContext.savedMovies.some(i => i.movieId === movie.id)
 
   function handleMovieButtonClick() {
     onMovieClick(movie);
-    
     movie.isLiked = !movie.isLiked
-    setIsLiked(!isLiked);
-
-    if(location.pathname === '/saved-movies') {
-      setIsDeleted(true);
-    }
   };
 
   return (
 
-    !isDeleted &&
-    
     <li className="movies-card">
       <img className="movies-card__img" src={src} alt={title} />
       <div className="movies-card__caption-block">

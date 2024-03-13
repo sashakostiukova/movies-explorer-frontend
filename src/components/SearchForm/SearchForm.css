@@ -65,6 +65,11 @@
   cursor: pointer;
 }
 
+.button_disabled {
+  background: #F8F8F8;
+  color: #C2C2C2;
+}
+
 .search-form__line {
   background: #E8E8E8;
   width: 1px;

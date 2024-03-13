@@ -2,10 +2,17 @@ import React, { useState } from 'react';
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { AppContext } from '../../contexts/AppContext';
+import { 
+  UNAUTHORIZED_ERROR_MESSAGE,
+  SERVER_ERROR_MESSAGE,
+  SOME_ERROR_MESSAGE 
+} from '../../utils/errorMessages';
 
-export default function Login({ onLogin} ) {
+export default function Login({ onLogin, buttonText } ) {
 
   const navigate = useNavigate();
+  const CurrentAppContext = React.useContext(AppContext);
 
   const [errMessage, setErrMessage] = useState('');
 
@@ -52,13 +59,14 @@ export default function Login({ onLogin} ) {
       .then(() => navigate('/movies'))
       .catch((err) => {
         if(err === 'Ошибка: 401') {
-          setErrMessage('Вы ввели неправильный логин или пароль');
+          setErrMessage(UNAUTHORIZED_ERROR_MESSAGE);
         } else if(err === 'Ошибка: 500') {
-          setErrMessage('500 На сервере произошла ошибка.')
+          setErrMessage(SERVER_ERROR_MESSAGE)
         } else {
-          setErrMessage(err.message || 'Что-то пошло не так');
+          setErrMessage(err.message || SOME_ERROR_MESSAGE);
         }
-      });
+      })
+      .finally(()=> CurrentAppContext.stopLoading());
   }
 
   return (
@@ -97,9 +105,9 @@ export default function Login({ onLogin} ) {
 
           <button
             type="submit"
-            className={`button-transition registration-button ${!isValid && `button_disabled`}`}
-            disabled={!isValid}
-            >Войти</button>
+            className={`button-transition registration-button ${!isValid && `button_disabled`} ${CurrentAppContext.isLoading && `button_disabled`}`}
+            disabled={!isValid || CurrentAppContext.isLoading}
+            >{buttonText}</button>
         </div>
           <p className="registration-login__text">Ещё не зарегистрированы?
             <Link className="registration-login__link link-transition" to="/signup">

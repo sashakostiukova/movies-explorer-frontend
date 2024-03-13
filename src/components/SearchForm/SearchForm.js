@@ -5,11 +5,13 @@ import './SearchForm.css';
 import loupeIcon from '../../images/loupe-icon.svg';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { AppContext } from '../../contexts/AppContext';
 
 export default function SearchForm({ handleCheckboxChange, onSearch }) {
   const location = useLocation();
 
   const UserContext = React.useContext(CurrentUserContext);
+  const CurrentAppContext = React.useContext(AppContext);
 
   const [ keyword, setKeyword ] = React.useState('');
   const [ isKeyword, setIsKeyword ] = React.useState(true);
@@ -55,7 +57,10 @@ export default function SearchForm({ handleCheckboxChange, onSearch }) {
             placeholder='Фильм' value={keyword}
             onChange={handleChange}
           />
-          <button className="search-form__submit-button button-transition" type="submit">Найти</button>
+          <button 
+            className={`search-form__submit-button button-transition ${CurrentAppContext.isLoading && `button_disabled`}`}
+            type="submit"
+            disabled={CurrentAppContext.isLoading}>Найти</button>
         </div>
 
         <div className="search-form__line" />

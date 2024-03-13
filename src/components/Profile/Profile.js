@@ -2,12 +2,26 @@ import React from 'react';
 import './Profile.css';
 import Header from '../Header/Header';
 import { useNavigate} from 'react-router-dom';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { useForm } from 'react-hook-form';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { AppContext } from '../../contexts/AppContext';
+import { 
+  DUPLACATE_ERROR_MESSAGE,
+  SERVER_ERROR_MESSAGE,
+  SOME_ERROR_MESSAGE 
+} from '../../utils/errorMessages';
 
-export default function Profile({ onNavigationSidebar, onSignOut, onEditProfile}) {
+export default function Profile({
+  onNavigationSidebar,
+  onSignOut,
+  onEditProfile,
+  buttonText,
+  successSubmitMessage
+  }) {
 
-  const userContext = React.useContext(CurrentUserContext);
+  const UserContext = React.useContext(CurrentUserContext);
+  const CurrentAppContext = React.useContext(AppContext);
+
   const [ isFormDisabled, setIsFormDisabled ] = React.useState(true);
   const [ message, setMessage ] = React.useState('');
 
@@ -17,9 +31,9 @@ export default function Profile({ onNavigationSidebar, onSignOut, onEditProfile}
   }, []);
 
   React.useEffect(() => {
-    setValue('name', userContext.currentUser.name)
+    setValue('name', UserContext.currentUser.name)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userContext.currentUser.name]);
+  }, [UserContext.currentUser.name]);
 
   const navigate = useNavigate();
 
@@ -40,9 +54,9 @@ export default function Profile({ onNavigationSidebar, onSignOut, onEditProfile}
     reset,
     setValue,
   } = useForm(
-      { defaultValues: { name: userContext.currentUser.name, email: userContext.currentUser.email } },
+      { defaultValues: { name: UserContext.currentUser.name, email: UserContext.currentUser.email } },
       { mode: "onChange" },
-      userContext.currentUser,
+      UserContext.currentUser,
     );
 
   const nameRegister = register('name', {
@@ -88,37 +102,36 @@ export default function Profile({ onNavigationSidebar, onSignOut, onEditProfile}
       setIsFormDisabled(true);
     })
     .then(() => {
-      setMessage('Данные успешно изменены!')
+      setMessage(successSubmitMessage)
     })
     .catch((err) => {
       if(err === 'Ошибка: 409') {
-        setMessage('Пользователь с таким email уже существует.');
+        setMessage(DUPLACATE_ERROR_MESSAGE);
       } else if(err === 'Ошибка: 500') {
-        setMessage('500 На сервере произошла ошибка.')
+        setMessage(SERVER_ERROR_MESSAGE)
       } else {
-        setMessage(err.message || 'Что-то пошло не так');
+        setMessage(err.message || SOME_ERROR_MESSAGE);
       }
     })
+    .finally(()=> CurrentAppContext.stopLoading())
   }
 
   return (
     <>
     <Header onNavigationSidebar={onNavigationSidebar}/>
     <section className="profile">
-      <h2 className="profile__greeting">Привет, {userContext.currentUser.name}!</h2>
-      <form className="profile-form" name="edit-profile-form"
-        onSubmit={handleSubmit(handleEditProfileSubmit)}
-        >
+      <h2 className="profile__greeting">Привет, {UserContext.currentUser.name}!</h2>
+      <form className="profile-form" name="edit-profile-form" onSubmit={handleSubmit(handleEditProfileSubmit)}>
         <div className="profile-form__input-wrapper">
           <label className="profile-form__label" htmlFor="name-input">Имя</label>
           <input 
             id="name-input" name="name" 
             className={`profile-form__input ${isFormDisabled && `profile-form__input_disabled`} ${errors.name && `profile-form__input_type_error`}`}
             disabled={isFormDisabled ? true : false}
-            type="text" placeholder={userContext.currentUser.name} 
+            type="text" placeholder={UserContext.currentUser.name} 
             {...nameRegister} />
         </div>
-          <span className={`profile-form__error ${errors.name && `profile-form__error_visible`}`}>{errors.name && errors.name.message}</span>
+        <span className={`profile-form__error ${errors.name && `profile-form__error_visible`}`}>{errors.name && errors.name.message}</span>
 
         <div className="profile__line"></div>
 
@@ -128,14 +141,15 @@ export default function Profile({ onNavigationSidebar, onSignOut, onEditProfile}
             id="email-input" name="email" 
             className={`profile-form__input ${isFormDisabled && `profile-form__input_disabled`} ${errors.email && `profile-form__input_type_error`}`}
             disabled={isFormDisabled ? true : false}
-            placeholder={userContext.currentUser.email} 
+            placeholder={UserContext.currentUser.email} 
             {...emailRegister} />
         </div>
-          <span className={`profile-form__error ${errors.email && `profile-form__error_visible`}`}>{errors.email && errors.email.message}</span>
+        <span className={`profile-form__error ${errors.email && `profile-form__error_visible`}`}>{errors.email && errors.email.message}</span>
 
-          <span className="profile-form__submit-message profile-form__success-message">{message}</span>
+
         {isFormDisabled ?
           <>
+          <span className="profile-form__submit-message profile-form__success-message">{message}</span>
           <button type="button" className="profile-form__edit-button link-transition"
             aria-label="Кнопка редактирования профиля" 
             onClick={editProfileFormOn}
@@ -144,19 +158,19 @@ export default function Profile({ onNavigationSidebar, onSignOut, onEditProfile}
               aria-label="Кнопка выхода из аккаунта"
               onClick={logOut}>Выйти из аккаунта
           </button>
-
           </>
         :
         <div className="profile-form__submit-message-wrapper">
           <span className="profile-form__submit-message">{message}</span>
-          <button type="submit" className={`profile-form__save-changes-button button-transition ${!isValid && `button_disabled`} ${!isDirty && `button_disabled`}`}
-            aria-label="Кнопка сохранения изменений профиля" disabled={!isValid || !isDirty}>
-            Сохранить
+          <button type="submit" className={
+            `profile-form__save-changes-button button-transition ${!isValid && `button_disabled`} ${!isDirty && `button_disabled`} 
+            ${CurrentAppContext.isLoading && `button_disabled`}`}
+            aria-label="Кнопка сохранения изменений профиля" disabled={!isValid || !isDirty || CurrentAppContext.isLoading}>
+            {buttonText}
           </button>
         </div>
         }
         
-
       </form>
     </section>
     </>
