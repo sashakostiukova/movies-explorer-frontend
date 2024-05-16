@@ -19,6 +19,10 @@
   transition: background-image 0.5s ease;
 }
 
+.filter-checkbox__visible-checkbox:hover {
+  cursor: pointer;
+}
+
 .filter-checkbox__invisible-checkbox:checked + .filter-checkbox__visible-checkbox {
   background: transparent url(../../images/tumb-on.svg) no-repeat center / contain;
 }

@@ -102,21 +102,27 @@
     width: 44px;
     background: transparent url(../../images/menu-icon.svg) no-repeat center / contain;
     border: none;
-
   }
-
-  .navigation__account-list-item {
+  
+  .navigation__register-list-item {
     display: none;
   }
 
+  .navigation__login-list-item {
+    display: none;
+  }
+  
   .navigation__movies-list-item {
     display: none;
   }
-
+  
   .navigation__saved-movies-list-item {
     display: none;
   }
-
+  
+  .navigation__account-list-item {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 425px) {
