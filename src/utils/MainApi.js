@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.kostiukova.nomoredomainsmonster.ru';
+export const BASE_URL = 'http://localhost:3001';
 export const BEATFILM_URL = 'https://api.nomoreparties.co';
 
 function getResponseData(res) {

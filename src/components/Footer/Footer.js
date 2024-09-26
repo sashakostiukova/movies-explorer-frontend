@@ -11,7 +11,7 @@ function Footer() {
       <div className="footer__line"></div>
 
       <div className="footer__bottom-section">
-        <p className="footer__copyright">© 2023</p>
+        <p className="footer__copyright">© 2024</p>
         <nav className="footer__nav">
           <ul className="footer__links-list">
             <li className="footer__list-item">
